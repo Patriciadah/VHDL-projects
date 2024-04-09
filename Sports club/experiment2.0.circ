@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="3.8.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v3.8.0(https://github.com/logisim-evolution/).
+
+  <lib desc="#Wiring" name="0">
+    <tool name="Pin">
+      <a name="appearance" val="classic"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4"/>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#TTL" name="6"/>
+  <lib desc="#TCL" name="7"/>
+  <lib desc="#Base" name="8"/>
+  <lib desc="#BFH-Praktika" name="9"/>
+  <lib desc="#Input/Output-Extra" name="10"/>
+  <lib desc="#Soc" name="11"/>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="8" map="Button2" name="Poke Tool"/>
+    <tool lib="8" map="Button3" name="Menu Tool"/>
+    <tool lib="8" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="8" name="Poke Tool"/>
+    <tool lib="8" name="Edit Tool"/>
+    <tool lib="8" name="Wiring Tool"/>
+    <tool lib="8" name="Text Tool"/>
+    <sep/>
+    <tool lib="0" name="Pin"/>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </tool>
+    <sep/>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+    <tool lib="1" name="XOR Gate"/>
+    <tool lib="1" name="NAND Gate"/>
+    <tool lib="1" name="NOR Gate"/>
+    <sep/>
+    <tool lib="4" name="D Flip-Flop"/>
+    <tool lib="4" name="Register"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="main"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="downloadBoard" val="NEXYS4_DDR_NOU"/>
+    <a name="simulationFrequency" val="16.0"/>
+    <boardmap boardname="NEXYS4_DDR_NOU">
+      <mc key="/Input_1" map="298,144"/>
+      <mc key="/Input_2" map="601,325"/>
+      <mc key="/Input_bus_1" pmap="163_325_0,128_325_0,94_325_0"/>
+      <mc key="/Output_bus_1" pmap="164_237_0,153_223_0,162_219_0,184_224_0,153_243_0,164_257_0,184_243_0"/>
+      <mc key="/Output_bus_2" pmap="160_200_0,208_200_0,248_200_0,289_200_0,338_200_0,381_200_0,420_200_0,461_199_0"/>
+    </boardmap>
+    <comp lib="0" loc="(210,220)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="Input_1"/>
+    </comp>
+    <comp lib="0" loc="(210,250)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="Input_2"/>
+    </comp>
+    <comp lib="0" loc="(210,290)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="Input_bus_1"/>
+      <a name="width" val="3"/>
+    </comp>
+    <comp lib="0" loc="(690,220)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="Output_bus_1"/>
+      <a name="output" val="true"/>
+      <a name="width" val="7"/>
+    </comp>
+    <comp lib="0" loc="(700,260)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="Output_bus_2"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+    </comp>
+    <comp loc="(520,220)" name="animation">
+      <a name="appearance" val="logisim_evolution"/>
+      <a name="label" val="animation_1"/>
+    </comp>
+    <wire from="(210,220)" to="(300,220)"/>
+    <wire from="(210,250)" to="(250,250)"/>
+    <wire from="(210,290)" to="(300,290)"/>
+    <wire from="(250,240)" to="(250,250)"/>
+    <wire from="(250,240)" to="(300,240)"/>
+    <wire from="(300,260)" to="(300,290)"/>
+    <wire from="(520,220)" to="(690,220)"/>
+    <wire from="(520,240)" to="(520,260)"/>
+    <wire from="(520,260)" to="(700,260)"/>
+  </circuit>
+  <vhdl name="animation">--------------------------------------------------------------------------------
+-- Project :
+-- File    :
+-- Autor   :
+-- Date    :
+--
+--------------------------------------------------------------------------------
+-- Description :
+--
+--------------------------------------------------------------------------------
+ 
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+ 
+ENTITY animation IS
+  PORT (
+
+    clock, reset : IN  std_logic;  
+    sel : IN std_logic_vector(2 downto 0);
+    segment: out std_logic_vector(6 downto 0);
+    anods: out std_logic_vector(7 downto 0)
+   
+    );
+END animation;
+
+
+
+--------------------------------------------------------------------------------
+--Complete your VHDL description below
+--------------------------------------------------------------------------------
+
+ARCHITECTURE TypeArchitecture OF animation IS
+
+ type mem is array (26 downto 0) of std_logic_vector(6 downto 0);
+ type word is array (20 downto 0) of std_logic_vector(6 downto 0);
+constant alphabet : mem :=(
+ 0 =&gt;"1011111",--A
+ 1 =&gt;"1110011",--b
+ 2 =&gt;"0110110",--C
+ 3 =&gt;"1111001",--d
+ 4 =&gt;"0110111",--E
+ 5 =&gt;"0010111",--F
+ 6 =&gt;"1101111",--g
+ 7 =&gt;"1010011",--h
+ 8 =&gt;"1001000",--I
+ 9 =&gt;"1111000",--J
+ 10 =&gt;"0110011",--k
+ 11 =&gt;"0110010",--l
+ 12 =&gt;"1011010",--M
+ 13 =&gt;"1010001",--n
+ 14 =&gt;"1111110",--O
+ 15 =&gt;"0011111",--P
+ 16 =&gt;"1111111",--Q
+ 17 =&gt;"0010001",--r
+ 18 =&gt;"1100111",--S
+ 19 =&gt;"0010110",--T
+ 20 =&gt;"1111010",--U
+ 21 =&gt;"1110000",--V
+ 22 =&gt;"1111011",--W
+ 23 =&gt;"1011011",--X
+ 24 =&gt;"0011011",--Y
+ 25 =&gt;"0111101",--Z
+ 26 =&gt;"0000000"--space
+ ); 
+ constant given_word: word:=(
+ 0=&gt;alphabet(5),--F
+ 1=&gt;alphabet(14),--O
+ 2=&gt;alphabet(14),--O
+ 3=&gt;alphabet(19),--T
+ 4=&gt;alphabet(1),--B
+ 5=&gt;alphabet(0),--A
+ 6=&gt;alphabet(11),--L
+ 7=&gt;alphabet(11),--L
+ 8=&gt;alphabet(26),--
+ 9=&gt;alphabet(0),--A
+ 10=&gt;alphabet(13),--N
+ 11=&gt;alphabet(3),--D
+ 12=&gt;alphabet(26),--
+ 13=&gt;alphabet(15),--P
+ 14=&gt;alphabet(8),--I
+ 15=&gt;alphabet(13),--N
+ 16=&gt;alphabet(6),--G
+ 17=&gt;alphabet(15),--P
+ 18=&gt;alphabet(14),--O
+ 19=&gt;alphabet(13),--N
+ 20=&gt;alphabet(6)--G
+ );
+signal counter: std_logic;
+signal counter2: std_logic; 
+
+component counter15 is
+port(
+clk :in std_logic;
+o: out std_logic); 
+end component counter15;
+
+component counter25 is
+port(
+clk :in std_logic;
+o: out std_logic); 
+end component counter25;
+
+signal clipping: integer:=0;
+signal l2: integer:= 0;
+signal r2: integer:= 7;
+signal close2: integer:= 1;
+signal segment3: std_logic_vector(7 downto 0):="01000000";
+signal segment4: std_logic_vector(7 downto 0):="11111111";
+signal i5:integer:=-7;
+signal i6: integer :=20;
+signal j56: integer :=20;
+signal c78: integer :=0;--current
+signal s78: integer :=0;--state
+signal bitmask7 : std_logic_vector(6 downto 0):="0010010";
+signal bitmask8 : std_logic_vector(6 downto 0):="0000100";
+BEGIN
+
+C15:counter15 port map(clk=&gt;clock,o=&gt;counter2);
+C25:counter25 port map(clk=&gt;clock,o=&gt;counter);
+------
+---ANIMATION PROCESS
+
+fordisplay: process(counter2,reset)
+variable j: integer:=0;
+variable anod:std_logic_vector(7 downto 0):="10000000";
+begin
+if(reset='1') then
+anod:="10000000";
+anods&lt;=anod;
+segment&lt;=(others=&gt;'0');
+elsif(counter2='1' and counter2'event) then
+---display time
+---constructing j-the memory index
+case anod is
+when "00000001"=&gt;
+j:=1;
+when "00000010"=&gt;
+j:=2;
+when "00000100"=&gt;
+j:=3;
+when "00001000"=&gt;
+j:=4;
+when "00010000"=&gt;
+j:=5;
+when "00100000"=&gt;
+j:=6;
+when "01000000"=&gt;
+j:=7;
+when "10000000"=&gt;
+j:=0;
+when others=&gt;
+j:=1;
+end case;
+--- done constructing j
+case sel is
+when "000"=&gt;
+if(clipping=0) then
+segment&lt;=given_word(j);
+else
+segment&lt;=(others=&gt;'0');
+end if;
+when "001"=&gt;
+if(j&lt;=l2 or j&gt;=r2) then
+segment&lt;=given_word(j);
+else
+segment&lt;=(others=&gt;'0');
+end if;
+when "010"=&gt;
+if(segment3(j)='1') then
+segment&lt;=given_word(j);
+else
+segment&lt;=(others=&gt;'0');
+end if;
+when "011"=&gt;
+if(segment4(j)='1') then
+segment&lt;=given_word(j);
+else
+segment&lt;=(others=&gt;'0');
+end if;
+when "100"=&gt;
+j:=j+i5;
+if(j&gt;=0 and j&lt;=j56) then
+segment&lt;=given_word(j);
+else
+segment&lt;="0000000";
+end if;
+when "101"=&gt;
+j:=j+i6;
+if(j&lt;=j56 and j&gt;=0) then
+segment&lt;=given_word(j);
+else
+segment&lt;="0000000";
+end if;
+when "110"=&gt;
+			if(j&lt;c78) then
+			segment&lt;=given_word(j);
+			elsif (j=c78) then
+               segment&lt;=given_word(j) and bitmask7;
+			else  
+			segment&lt;="0000000";
+			end if;
+when "111"=&gt;
+               if(j&lt;c78) then
+			segment&lt;=given_word(j);
+			elsif (j=c78) then
+               segment&lt;=given_word(j) and bitmask8;
+			else  
+			segment&lt;="0000000";
+			end if;
+when others=&gt; 
+segment&lt;=(others=&gt;'0');
+end case;
+          if(anod(0)='1') then
+			anod(0):='0'; 
+			anod(1):='1';
+		elsif (anod(1)='1') then 
+			anod(1):='0';
+			anod(2):='1';
+		elsif (anod(2)='1') then 
+			anod(2):='0';
+			anod(3):='1';
+		elsif (anod(3)='1') then 
+			anod(3):='0';
+			anod(4):='1';
+		elsif (anod(4)='1') then 
+			anod(4):='0';  
+			anod(5):='1';
+		elsif (anod(5)='1') then 
+			anod(5):='0';
+			anod(6):='1';
+		elsif (anod(6)='1') then 
+			anod(6):='0';
+			anod(7):='1';
+		elsif (anod(7)='1') then 
+			anod(7):='0';
+			anod(0):='1';			
+		end if;
+		anods&lt;=anod;
+end if;
+
+
+end process fordisplay;
+
+framechange: process(counter,reset)
+
+begin
+if(reset='1') then
+clipping&lt;=0;
+l2&lt;=0;
+r2&lt;=7;
+close2&lt;=1;
+segment3&lt;="01000000";
+segment4&lt;="11111111";
+i5&lt;=-7;
+i6&lt;=j56;
+c78&lt;=0;--current
+s78&lt;=0;--state
+bitmask7&lt;="0010010";
+bitmask8&lt;="0000100";
+
+elsif(counter='1'and counter'event) then
+case sel is
+when "000"=&gt;
+clipping&lt;=clipping+1;
+if(clipping=2) then
+clipping&lt;=0;
+end if;
+when "001"=&gt;
+if(close2=1) then
+l2&lt;=l2+1;
+r2&lt;=r2-1;
+if(l2&gt;r2) then
+l2&lt;=l2-2;
+r2&lt;=r2+2;
+close2&lt;=0;
+end if;
+
+elsif(close2=0) then
+l2&lt;=l2-1;
+r2&lt;=r2+1;
+if(l2&lt;0 and r2&gt;7) then
+l2&lt;=l2+1;
+r2&lt;=r2-1;
+close2&lt;=1;
+end if;
+
+end if;
+when "010"=&gt;
+
+case segment3 is
+when "01000000"=&gt;
+segment3&lt;="01000010";
+when "01000010"=&gt;
+segment3&lt;="01001010";
+when "01001010"=&gt;
+segment3&lt;="01011010";
+when "01011010"=&gt;
+segment3&lt;="11011010";
+when "11011010"=&gt;
+segment3&lt;="11011110";
+when "11011110"=&gt;
+segment3&lt;="11111110";
+when "11111110"=&gt;
+segment3&lt;="11111111";
+when "11111111"=&gt;
+segment3&lt;="00000000";
+when "00000000"=&gt;
+segment3&lt;="01000000";
+when others=&gt;
+segment3&lt;="00000000";
+end case;
+
+when "011"=&gt;
+case segment4 is
+when "11111111"=&gt;
+segment4&lt;="11101110";
+when "11101110"=&gt;--
+segment4&lt;="11011101";
+when "11011101"=&gt;
+segment4&lt;="10111011";
+when "10111011"=&gt;
+segment4&lt;="01110111";--
+when "01110111"=&gt;
+segment4&lt;="11111111";
+when others=&gt;
+segment4&lt;="11111111";
+end case;
+
+when "100"=&gt;
+i5&lt;=i5+1;
+if(i5&gt;j56) then
+i5&lt;=-7;
+end if;
+when "101"=&gt;
+i6&lt;=i6-1;
+if(i6&lt;-7) then
+i6&lt;=j56;
+end if;
+when "110"=&gt;
+s78&lt;=s78+1;
+if(s78&gt;2) then
+s78&lt;=0;
+c78&lt;=c78+1;
+if(c78&gt;7) then
+c78&lt;=0;
+end if;
+end if;
+case s78 is
+when 0 =&gt;
+bitmask7&lt;="0010010";
+when 1=&gt;
+bitmask7&lt;="0110111";
+when 2=&gt;
+bitmask7&lt;="1111111";
+when others=&gt;
+bitmask7&lt;="0000000";
+end case;
+
+when "111"=&gt;
+s78&lt;=s78+1;
+if(s78&gt;4) then
+s78&lt;=0;
+c78&lt;=c78+1;
+if(c78&gt;7) then
+c78&lt;=0;
+end if;
+end if;
+ case s78 is
+ when 0 =&gt;
+ bitmask8&lt;="0000100";
+ when 1=&gt;
+ bitmask8&lt;="0001110";
+  when 2=&gt;
+  bitmask8&lt;="0001111";
+  when 3=&gt;
+  bitmask8&lt;="1011111";
+  when 4=&gt;
+  bitmask8&lt;="1111111";
+  when others=&gt;
+  bitmask8&lt;="0000000";              
+ end case;
+when others=&gt;
+end case;
+end if;
+end process framechange;
+end Typearchitecture;
+-------
+---COUNTER 25
+-------
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+ 
+entity counter25 is
+port(
+clk :in std_logic;
+o: out std_logic); 
+end counter25;
+Architecture count1 of counter25 is
+signal c: std_logic_vector(25 downto 0):=(others=&gt;'0');
+begin
+
+counting : process(clk)
+begin
+if(clk='1' and clk'event) then
+c&lt;=c+1;
+if(c="10111110101111000010111111") then
+o&lt;='1';
+end if;
+if(c="10111110101111000011000000") then
+c&lt;=(others=&gt;'0');
+o&lt;='0';
+end if;
+end if;
+
+end process counting;
+
+end count1; 
+
+---COUNTER 15
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+ 
+entity counter15 is
+port(
+clk :in std_logic;
+o: out std_logic); 
+end counter15;
+Architecture count2 of counter15 is
+signal c: std_logic_vector(15 downto 0):=(others=&gt;'0');
+begin
+
+counting : process(clk)
+begin
+if(clk='1' and clk'event) then
+ c&lt;=c+1;
+if(c="1111000000000000") then
+o&lt;='1';
+end if;
+if(c="1111000000000001") then
+c&lt;=(others=&gt;'0');
+o&lt;='0';
+end if;
+end if;
+
+end process counting;
+
+end count2; 
+</vhdl>
+</project>
